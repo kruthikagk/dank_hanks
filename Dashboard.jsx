@@ -1,25 +1,15 @@
-function Dashboard() {
-  const name = localStorage.getItem("userName")
+import { useEffect, useState } from "react";
 
-  return (
-    <div style={{
-      backgroundColor: "#111827",
-      minHeight: "100vh",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "column"
-    }}>
-      <h1 style={{ color: "#3B82F6" }}>
-        Dashboard ✅
-      </h1>
+const [events, setEvents] = useState([]);
 
-      <p style={{ marginTop: "20px", fontSize: "18px" }}>
-        Hello, {name} 👋
-      </p>
-    </div>
-  )
-}
+useEffect(() => {
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
 
-export default Dashboard
+    fetch(`http://localhost:5000/events?lat=${lat}&lon=${lon}`)
+      .then(res => res.json())
+      .then(data => setEvents(data))
+      .catch(err => console.error(err));
+  });
+}, []);

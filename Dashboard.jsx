@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+<div className="events-container">
+  {events.map((event, index) => (
+    <div key={index} className="event-card">
+      <h3>{event.name}</h3>
+      <p>{event.date}</p>
+      <p>{event.venue}</p>
 
-const [events, setEvents] = useState([]);
-
-useEffect(() => {
-  navigator.geolocation.getCurrentPosition((pos) => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-
-    fetch(`http://localhost:5000/events?lat=${lat}&lon=${lon}`)
-      .then(res => res.json())
-      .then(data => setEvents(data))
-      .catch(err => console.error(err));
-  });
-}, []);
+      <a href={event.url} target="_blank" rel="noreferrer">
+        View Event
+      </a>
+    </div>
+  ))}
+</div>
